@@ -1,18 +1,24 @@
 import React from 'react';
 import Card from '../card/card.component';
+import { useSelector } from 'react-redux';
 import './cards.styles.css';
 
-const Cards = ({ pokemons }) => {
-  console.log('Cards component received pokemons:', pokemons); // Debugging log
+const Cards = () => { // * se pondran las propiedades del back después
+  // console.log('Cards component received pokemons:', pokemons); //// Debugging log
+  const items = useSelector(state => state.items);
   return (
     <div className="cards-container">
-      {pokemons.length > 0 ? (
-        pokemons.map((pokemon) => (
-          <Card key={pokemon.id || pokemon.name} pokemon={pokemon} />
-        ))
-      ) : (
-        <p>No Pokémon found</p>
-      )}
+      {items.map((pet) => {
+        return (
+          <Card
+            key={pet.id}
+            id={pet.id}
+            name={pet.name}
+            image={pet.image}
+            condition= {pet.condition}
+          />
+        )
+      })}
     </div>
   );
 };
