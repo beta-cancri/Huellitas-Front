@@ -1,56 +1,60 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { fetchPokemonDetail } from '../../redux/actions';
+import  { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './detail.styles.css';
 
-const DetailPage = () => {
-  const { id } = useParams();
-  const dispatch = useDispatch();
-  const pokemonDetail = useSelector((state) => state.pokemonDetail);
+const Detail = () => {
+  const [animal, setAnimal] = useState(null);
   const [loading, setLoading] = useState(true);
-
-  const capitalizeFirstLetter = (string) => {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  };
+  const navigate = useNavigate(); 
 
   useEffect(() => {
-    const fetchData = async () => {
-      if (id) {
-        await dispatch(fetchPokemonDetail(id));
-        setLoading(false);
-      } else {
-        console.error('No ID provided in URL');
-      }
+    const mockAnimal = {
+      name: 'Rex',
+      species: 'Perro',
+      condition: 'Saludable',
+      gender: 'Macho',
+      history: 'Rescatado de la calle, muy cariñoso y juguetón.',
+      breed: 'Labrador',
+      energyLevel: 'Alta',
+      age: 3,
+      size: 'Grande',
+      goodWithKids: true,
+      goodWithPets: true,
+      image: 'https://content.nationalgeographic.com.es/medio/2023/11/29/golden-retriever-corriendo_7a50f15e_231129131211_800x800.jpg', // URL de imagen simulada
     };
-
-    fetchData();
-  }, [dispatch, id]);
+  
+    // Simulación de carga de datos
+    setTimeout(() => {
+      console.log('Simulated data:', mockAnimal);
+      setAnimal(mockAnimal);
+      setLoading(false);
+    }, 1000); 
+  }, []);
+  
 
   if (loading) {
     return <p>Loading...</p>;
   }
 
-  if (!pokemonDetail || Object.keys(pokemonDetail).length === 0) {
-    return <p>Pokemon not found</p>;
-  }
-
   return (
-    <div className="detail-page">
-      <h1 className="pokemon-name">{capitalizeFirstLetter(pokemonDetail.name)}</h1>
-      <img src={pokemonDetail.image} alt={pokemonDetail.name} />
-      <div className="attributes">
-        <p><strong>ID:</strong> {pokemonDetail.id}</p>
-        <p><strong>Types:</strong> {pokemonDetail.types ? pokemonDetail.types.join(', ') : 'No types available'}</p>
-        <p><strong>Health:</strong> {pokemonDetail.health}</p>
-        <p><strong>Attack:</strong> {pokemonDetail.attack}</p>
-        <p><strong>Defense:</strong> {pokemonDetail.defense}</p>
-        <p><strong>Speed:</strong> {pokemonDetail.speed}</p>
-        <p><strong>Height:</strong> {pokemonDetail.height}</p>
-        <p><strong>Weight:</strong> {pokemonDetail.weight}</p>
-      </div>
+    <div className="animal-detail">
+    <img src={animal.image} alt={animal.name} className="animal-image" />
+    <div className="animal-detail-content">
+      <h2>{animal.name}</h2>
+      <p><strong>Especie:</strong> {animal.species}</p>
+      <p><strong>Condición:</strong> {animal.condition}</p>
+      <p><strong>Género:</strong> {animal.gender}</p>
+      <p><strong>Historia:</strong> {animal.history}</p>
+      <p><strong>Raza:</strong> {animal.breed}</p>
+      <p><strong>Nivel de energía:</strong> {animal.energyLevel}</p>
+      <p><strong>Edad:</strong> {animal.age} años</p>
+      <p><strong>Tamaño:</strong> {animal.size}</p>
+      <p><strong>¿Es bueno con los niños?</strong> {animal.goodWithKids ? 'Sí' : 'No'}</p>
+      <p><strong>¿Es bueno con otras mascotas?</strong> {animal.goodWithPets ? 'Sí' : 'No'}</p>
+      <button className="back-button" onClick={() => navigate('/')}>Atrás</button>
     </div>
-  );
+  </div>
+);
 };
 
-export default DetailPage;
+export default Detail;
