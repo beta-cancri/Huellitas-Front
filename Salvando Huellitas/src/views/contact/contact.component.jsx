@@ -1,10 +1,11 @@
+import { useNavigate } from 'react-router-dom';
 import './contact.styles.css'; 
 
 const Contact = () => {
     const whatsappNumber = '+1234567890'; 
     const email = 'contact@huellitas.com';
     const address = 'Av. Cnel. Díaz 2488,  Cdad. Autónoma de Buenos Aires';
-
+    const navigate = useNavigate();
     return (
         <div className="contact-container">
             <div className="intro">
@@ -61,6 +62,8 @@ const Contact = () => {
                     referrerPolicy="no-referrer-when-downgrade"
                 ></iframe>
             </div>
+            <button className="back-button" onClick={() => navigate('/home')}>Back to Home</button>        
+
         </div>
     );
 };

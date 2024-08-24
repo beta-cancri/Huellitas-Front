@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import './about.styles.css'; 
 
 const About = () => {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -23,7 +26,8 @@ const About = () => {
 
     fetchReviews();
   }, []);
-
+  
+  
   return (
     <div className="about-container">
       <section className="intro">
@@ -87,6 +91,8 @@ const About = () => {
           <p>No reviews available.</p>
         )}
       </section>
+      <button className="back-button" onClick={() => navigate('/home')}>Back to Home</button>        
+      
     </div>
   );
 };
